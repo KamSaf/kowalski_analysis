@@ -23,7 +23,7 @@ X_scaled = scaler.fit_transform(X_cluster)
 # Determine optimal number of clusters using elbow method
 inertias = []
 K = range(1, 11)
-for k in K: 
+for k in K:
     kmeans = KMeans(n_clusters=k, random_state=42)
     kmeans.fit(X_scaled)
     inertias.append(kmeans.inertia_)
