@@ -1,24 +1,65 @@
-# PCA Analysis
-# Standardizing the numerical features
+# Load the data and inspect it
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+import numpy as np
+from sklearn.preprocessing import StandardScaler
 
+
+# Load the dataset
+file_path = "car_prices.csv"
+data = pd.read_csv(file_path)
+cleaned_data = data.dropna(subset=["condition", "odometer", "mmr"])
+# Display the first few rows and summary of the dataset
+print(cleaned_data.head())
+print(cleaned_data.info())
+
+
+# Perform PCA Analysis
+
+cluster_features = ["year", "condition", "odometer", "mmr", "sellingprice"]
+X_cluster = cleaned_data[cluster_features]
 scaler = StandardScaler()
-X_scaled_pca = scaler.fit_transform(df_numerical.fillna(df_numerical.mean()))
+X_scaled = scaler.fit_transform(X_cluster)
 
-# Applying PCA
-pca = PCA(n_components=2)
-principal_components = pca.fit_transform(X_scaled_pca)
+X_pca = X_scaled
 
-# Creating a DataFrame for the principal components
-pca_df = pd.DataFrame(data=principal_components, columns=["PC1", "PC2"])
+# Create and fit PCA
+pca = PCA()
+X_pca_transformed = pca.fit_transform(X_pca)
 
-# Visualizing the PCA results
+# Calculate explained variance ratio
+explained_variance_ratio = pca.explained_variance_ratio_
+
+# Plot explained variance ratio
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], alpha=0.6)
-plt.title("PCA Analysis: First Two Principal Components")
-plt.xlabel("Principal Component 1")
-plt.ylabel("Principal Component 2")
+plt.plot(
+    range(1, len(explained_variance_ratio) + 1),
+    np.cumsum(explained_variance_ratio),
+    "bo-",
+)
+plt.xlabel("Number of Components")
+plt.ylabel("Cumulative Explained Variance Ratio")
+plt.title("PCA - Cumulative Explained Variance Ratio")
+plt.grid(True)
 plt.show()
 
-# Explained variance ratio
-print("Explained Variance Ratio:")
-print(pca.explained_variance_ratio_)
+# Print explained variance ratio for each component
+print(
+    "\
+Explained Variance Ratio for each component:"
+)
+for i, ratio in enumerate(explained_variance_ratio):
+    print(f"PC{i+1}: {ratio:.4f}")
+
+# Get component loadings
+loadings = pd.DataFrame(
+    pca.components_.T,
+    columns=[f"PC{i+1}" for i in range(len(cluster_features))],
+    index=cluster_features,
+)
+print(
+    "\
+PCA Component Loadings:"
+)
+print(loadings)

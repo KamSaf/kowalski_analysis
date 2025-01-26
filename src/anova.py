@@ -1,39 +1,25 @@
+# Load the data and inspect it
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-import seaborn as sns
-import matplotlib.pyplot as plt
-from scipy import stats
-from sklearn.linear_model import LinearRegression
-import statsmodels.api as sm
+import scipy.stats as stats
 
-# Load the data
-df = pd.read_csv("road_accident_dataset.csv")
-
-# Select numerical columns for analysis
-numerical_cols = df.select_dtypes(include=["float64", "int64"]).columns
-df_numerical = df[numerical_cols]
-
-print("Numerical columns selected for analysis:")
-print(numerical_cols)
+# Load the dataset
+file_path = "car_prices.csv"
+data = pd.read_csv(file_path)
+cleaned_data = data.dropna(subset=["condition", "odometer", "mmr"])
+# Display the first few rows and summary of the dataset
+print(cleaned_data.head())
+print(cleaned_data.info())
 
 
-# One-way ANOVA test comparing Number of Injuries across different Road Types
-road_type_groups = [
-    group for _, group in df.groupby("Pedestrians Involved")["Number of Injuries"]
-]
-f_stat, p_val = stats.f_oneway(*road_type_groups)
+# Perform ANOVA analysis to check if there are significant differences in selling price based on car make
 
-print("One-way ANOVA Results for Pedestrians Involved vs Number of Injuries:")
-print("F-statistic:", f_stat)
-print("p-value:", p_val)
+# Group data by 'make' and extract selling prices
+groups = [group["sellingprice"].dropna() for name, group in data.groupby("make")]
 
-# Visualize the relationship
-plt.figure(figsize=(10, 6))
-sns.boxplot(x="Pedestrians Involved", y="Number of Injuries", data=df)
-plt.xticks(rotation=45)
-plt.title("Number of Injuries by Pedestrians Involved")
-plt.tight_layout()
-plt.show()
+# Perform one-way ANOVA
+anova_result = stats.f_oneway(*groups)
+
+# Display the ANOVA result
+print("ANOVA Result:")
+print("F-statistic:", anova_result.statistic)
+print("p-value:", anova_result.pvalue)

@@ -1,28 +1,26 @@
-# Multiple Regression Analysis: Predicting Number of Injuries
-# Selecting relevant features for regression
-features = [
-    "Visibility Level",
-    "Number of Vehicles Involved",
-    "Speed Limit",
-    "Driver Alcohol Level",
-    "Driver Fatigue",
-    "Pedestrians Involved",
-    "Cyclists Involved",
-    "Emergency Response Time",
-    "Traffic Volume",
-]
-X = df[features]
-y = df["Number of Injuries"]
+# Load the data and inspect it
+import pandas as pd
+import statsmodels.api as sm
 
-# Handling missing values
-X = X.fillna(X.mean())
-y = y.fillna(y.mean())
+# Load the dataset
+file_path = "car_prices.csv"
+data = pd.read_csv(file_path)
+cleaned_data = data.dropna(subset=["condition", "odometer", "mmr"])
+# Display the first few rows and summary of the dataset
+print(cleaned_data.head())
+print(cleaned_data.info())
 
-# Adding a constant for statsmodels
+# Perform multiple regression analysis to predict selling price based on other variables
+# Select relevant features for regression analysis
+features = ["year", "condition", "odometer", "mmr"]
+X = data[features]
+y = data["sellingprice"]
+
+# Add a constant to the model (intercept)
 X = sm.add_constant(X)
 
-# Fitting the regression model
+# Fit the regression model
 model = sm.OLS(y, X).fit()
 
-# Summary of the regression model
+# Display the regression summary
 print(model.summary())
