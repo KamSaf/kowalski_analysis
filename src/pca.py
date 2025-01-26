@@ -37,17 +37,19 @@ plt.plot(
     range(1, len(explained_variance_ratio) + 1),
     np.cumsum(explained_variance_ratio),
     "bo-",
+    label="Skumulowana Wariancja",
 )
-plt.xlabel("Number of Components")
-plt.ylabel("Cumulative Explained Variance Ratio")
-plt.title("PCA - Cumulative Explained Variance Ratio")
+plt.xlabel("Liczbna głównych składowych")
+plt.ylabel("Skumulowana wyjaśniona wariancja")
+plt.title("PCA - Skumulowany współczynnik wyjaśnionej wariancji")
 plt.grid(True)
+plt.legend(loc="best")
 plt.show()
 
 # Print explained variance ratio for each component
 print(
     "\
-Explained Variance Ratio for each component:"
+Wyjaśniona Wariancja dla każdej składowej:"
 )
 for i, ratio in enumerate(explained_variance_ratio):
     print(f"PC{i+1}: {ratio:.4f}")
@@ -60,6 +62,6 @@ loadings = pd.DataFrame(
 )
 print(
     "\
-PCA Component Loadings:"
+Ładunki składowych PCA:"
 )
 print(loadings)
