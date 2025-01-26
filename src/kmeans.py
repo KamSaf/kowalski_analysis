@@ -34,6 +34,7 @@ plt.plot(K, inertias, "bx-")
 plt.xlabel("k")
 plt.ylabel("Inertia")
 plt.title("Elbow Method For Optimal k")
+plt.savefig("k_means_plot.jpg")
 plt.show()
 
 # Fit K-means with optimal number of clusters (k=4 based on elbow curve)
