@@ -20,6 +20,6 @@ groups = [group["sellingprice"].dropna() for name, group in data.groupby("make")
 anova_result = stats.f_oneway(*groups)
 
 # Display the ANOVA result
-print("ANOVA Result:")
-print("F-statistic:", anova_result.statistic)
-print("p-value:", anova_result.pvalue)
+print("Wynik analizy ANOVA:")
+print("F:", anova_result.statistic)
+print("p:", anova_result.pvalue)
