@@ -44,6 +44,7 @@ plt.ylabel("Skumulowana wyjaśniona wariancja")
 plt.title("PCA - Skumulowany współczynnik wyjaśnionej wariancji")
 plt.grid(True)
 plt.legend(loc="best")
+plt.savefig("pca_plot.jpg")
 plt.show()
 
 # Print explained variance ratio for each component
