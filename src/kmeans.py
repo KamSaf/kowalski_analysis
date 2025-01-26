@@ -23,7 +23,7 @@ X_scaled = scaler.fit_transform(X_cluster)
 # Determine optimal number of clusters using elbow method
 inertias = []
 K = range(1, 11)
-for k in K:
+for k in K: 
     kmeans = KMeans(n_clusters=k, random_state=42)
     kmeans.fit(X_scaled)
     inertias.append(kmeans.inertia_)
@@ -31,9 +31,9 @@ for k in K:
 # Plot elbow curve
 plt.figure(figsize=(10, 6))
 plt.plot(K, inertias, "bx-")
-plt.xlabel("k")
-plt.ylabel("Inertia")
-plt.title("Elbow Method For Optimal k")
+plt.xlabel("Ilość klastrów")
+plt.ylabel("Inertia - Miara spójności wewnątrz klastra")
+plt.title("Metoda łokcia dla optymalnej ilości klastrów")
 plt.show()
 
 # Fit K-means with optimal number of clusters (k=4 based on elbow curve)
