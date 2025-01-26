@@ -31,9 +31,9 @@ for k in K:
 # Plot elbow curve
 plt.figure(figsize=(10, 6))
 plt.plot(K, inertias, "bx-")
-plt.xlabel("k")
-plt.ylabel("Inertia")
-plt.title("Elbow Method For Optimal k")
+plt.xlabel("Ilość klastrów")
+plt.ylabel("Inertia - Miara spójności wewnątrz klastra")
+plt.title("Metoda łokcia dla optymalnej ilości klastrów")
 plt.savefig("k_means_plot.jpg")
 plt.show()
 
