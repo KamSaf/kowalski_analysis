@@ -34,6 +34,7 @@ plt.plot(K, inertias, "bx-")
 plt.xlabel("Ilość klastrów")
 plt.ylabel("Inertia - Miara spójności wewnątrz klastra")
 plt.title("Metoda łokcia dla optymalnej ilości klastrów")
+plt.savefig("k_means_plot.jpg")
 plt.show()
 
 # Fit K-means with optimal number of clusters (k=4 based on elbow curve)

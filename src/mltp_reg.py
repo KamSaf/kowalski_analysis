@@ -35,4 +35,5 @@ oszacowanej ceny na podstawie modelu regresji"
 )
 plt.legend()
 plt.grid(True, linestyle="--", alpha=0.7)
+plt.savefig("multiple_regression_plot.jpg")
 plt.show()
