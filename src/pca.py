@@ -17,7 +17,7 @@ print(cleaned_data.info())
 
 # Perform PCA Analysis
 
-cluster_features = ["year", "condition", "odometer", "mmr", "sellingprice"]
+cluster_features = ["age", "condition", "odometer", "mmr", "sellingprice"]
 X_cluster = cleaned_data[cluster_features]
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_cluster)

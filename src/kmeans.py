@@ -13,7 +13,7 @@ print(cleaned_data.info())
 
 
 # Select features for clustering
-cluster_features = ["year", "condition", "odometer", "mmr", "sellingprice"]
+cluster_features = ["age", "condition", "odometer", "mmr", "sellingprice"]
 X_cluster = cleaned_data[cluster_features]
 
 # Standardize the features
