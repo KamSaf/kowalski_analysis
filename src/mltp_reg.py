@@ -9,7 +9,7 @@ print(data.head())
 print(data.info())
 model = sm.OLS(
     cleaned_data["sellingprice"],
-    sm.add_constant(cleaned_data[["year", "condition", "odometer", "mmr"]]),
+    sm.add_constant(cleaned_data[["age", "condition", "odometer", "mmr"]]),
 ).fit()
 
 residuals = model.resid

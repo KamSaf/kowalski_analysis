@@ -14,7 +14,7 @@ print(cleaned_data.info())
 # Perform ANOVA analysis to check if there are significant differences in selling price based on car make
 
 # Group data by 'make' and extract selling prices
-groups = [group["sellingprice"].dropna() for name, group in data.groupby("make")]
+groups = [group["sellingprice"].dropna() for name, group in data.groupby("body")]
 
 # Perform one-way ANOVA
 anova_result = stats.f_oneway(*groups)
