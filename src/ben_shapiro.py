@@ -1,11 +1,11 @@
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
+from scipy.stats import shapiro
 
 # 1. Wczytaj dane
 file_path = "car_prices.csv"
 data = pd.read_csv(file_path)
+data = data.head(50)
 
 # 2. Oczyść dane z brakujących wartości
 cleaned_data = data.dropna(subset=["condition", "odometer", "mmr", "body"])
@@ -30,7 +30,7 @@ threshold = 4 / len(cleaned_data)
 cleaned_data = cleaned_data[cooks_d < threshold]
 
 # 6. Przeprowadź ponowną regresję na oczyszczonych danych
-X_cleaned = sm.add_constant(cleaned_data[["year", "condition", "odometer", "mmr"]])
+X_cleaned = sm.add_constant(cleaned_data[["year", "condition", "odometer"]])
 y_cleaned = cleaned_data["sellingprice"]
 final_model = sm.OLS(y_cleaned, X_cleaned).fit()
 
@@ -41,35 +41,12 @@ print(final_model.summary())
 residuals = final_model.resid
 fitted_values = final_model.fittedvalues
 
-plt.figure(figsize=(12, 8))
-plt.scatter(
-    cleaned_data["sellingprice"],
-    fitted_values,
-    alpha=0.5,
-    label="Dane (cena oszacowana vs sprzedaży)",
-)
-plt.plot(
-    [cleaned_data["sellingprice"].min(), cleaned_data["sellingprice"].max()],
-    [cleaned_data["sellingprice"].min(), cleaned_data["sellingprice"].max()],
-    "r--",
-    label="Idealne dopasowanie",
-)
-plt.xlabel("Cena sprzedaży (USD)")
-plt.ylabel("Oszacowana cena (USD)")
-plt.title(
-    "Porównanie ceny sprzedaży i \
-oszacowanej ceny na podstawie modelu regresji"
-)
-plt.legend()
-plt.grid(True, linestyle="--", alpha=0.7)
-plt.savefig("multiple_regression_plot_cleaned.jpg")
-plt.show()
 
+# analiza reszt
+stat, p = shapiro(residuals)
+print(f"Test Shapiro-Wilka: stat={stat:.4f}, p={p:.4f}")
 
-# Histogram reszt
-
-sns.histplot(residuals, bins=30, kde=True)
-plt.xlabel("Reszty")
-plt.ylabel("Liczność")
-plt.title("Histogram reszt")
-plt.show()
+if p > 0.05:
+    print("Brak dowodów na odchylenie od normalności.")
+else:
+    print("Reszty nie są normalne.")
